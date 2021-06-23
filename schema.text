@@ -1,0 +1,150 @@
+category {                          {findById}
+    name: string,
+    producId: [{_id.ObjectId}] 
+}
+
+product {                           {user can view the product, push to cart, view the detail product}
+    name: string,                   
+    price: number,
+    image: string,
+    description: string,
+}
+
+cart {                              {user bisa menambah jumlah product yang dipesan, user dapat melihat total harga dari masing2 product yang dipesan, user bisa menghapus produc yang dipesan}
+    items: [{_id.ObjectId}],    
+    quantity: number,
+    subtotal_payment: number,
+    
+}
+
+checkout {                          {user bisa checkout, user bisa melihat berapa total product yang dipesan, user bisa melihat berapa total pembayaran}
+    cartItem = [{_.id.ObjectId}],
+    Total_Pesanan = number,
+    Total_Pembayaran = number, 
+
+}
+
+user {                              {user bisa register dan login}
+    username: string,
+    email: string,
+    paswoord: string,
+    first_name: string,
+    last_name: string,
+    no_hp : string,
+    address: string,
+    gender: string,
+    carts: [{_id.objectId}],
+    product_checkout: [{_id.objectId}],
+}
+
+
+const updateProduct = await Product.findByIdAndUpdate(
+  req.params.id,
+  { $push: { categorys: newCategory.id } },
+  { new: true }
+);
+
+    // const userId = (<any>req).UserId;
+    // const productId = req.body.items;
+
+    // try {
+    //   const findProduct = await Product.findById(productId);
+    //   const stockProduct = findProduct.stock;
+
+    //   if (findProduct.stock > 0) {
+    //     const createCart = await Carts.create({
+    //       items: productId,
+    //       quantity: stockProduct + 1 - stockProduct,
+    //       subtotal_payment:
+    //         findProduct.price * (stockProduct + 1 - stockProduct),
+    //       users: userId,
+    //     });
+
+    //     const updateStockProduct = await Product.findByIdAndUpdate(
+    //       productId,
+    //       {
+    //         $inc: { stock: -(stockProduct + 1 - stockProduct) },
+    //       },
+    //       { new: true }
+    //     );
+
+    //     res.status(201).json({
+    //       success: true,
+    //       message: "Cart was created successfully",
+    //       data: createCart,
+    //     });
+    //   } else {
+    //     res.status(400).json({
+    //       success: false,
+    //       message: "Stock Empty",
+    //     });
+    //   }
+    // } catch (err) {
+    //   res.status(500).json({
+    //     success: false,
+    //     message: "Can't Add To Cart",
+    //     data: err,
+    //   });
+    // }
+
+    // const updateStock = await Product.findByIdAndUpdate(
+        //   productId,
+        //   {
+        //     $inc: { stock: -(stockProduct + 1 - stockProduct) },
+        //   },
+        //   { new: true }
+        // );
+
+     // const updateStockProduct = await Product.findByIdAndUpdate(
+        //   productId,
+        //   {
+        //     $inc: { stock: -(stockProduct + 1 - stockProduct) },
+        //   },
+        //   { new: true }
+        // );
+
+         
+
+      try {
+      const findProduct = await Product.findById(items);
+      // const cartId = await Carts.find().select("_id");
+
+      const itemsInExist = await Carts.findById(items);
+      const stockProduct = findProduct.stock;
+
+      if (itemsInExist.id != req.params.id) {
+        const createCart = await Carts.create({
+          items: items,
+          quantity: stockProduct + 1 - stockProduct,
+          subtotal_payment:
+            findProduct.price * (stockProduct + 1 - stockProduct),
+          users: users,
+        });
+        const updateStockProduct = await Product.findByIdAndUpdate(
+          items,
+          {
+            $inc: { stock: -1 },
+          },
+          { new: true }
+        );
+
+        res.status(201).json({
+          success: true,
+          message: " New cart was created successfully",
+          data: createCart,
+        });
+      } else {
+        const incCart = await Carts.findByIdAndUpdate({
+          items,
+          $inc: { quantity: 1, subtotal_payment: findProduct.price },
+        });
+        const updateStockProduct = await Product.findByIdAndUpdate(
+          items,
+          {
+            $inc: { stock: -1 },
+          },
+          { new: true }
+        );
+
+        res.status(200).json({ msg: "Carts have ben update", data: incCart });
+      }
