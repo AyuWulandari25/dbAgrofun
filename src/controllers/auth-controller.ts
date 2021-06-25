@@ -40,7 +40,7 @@ class auth {
         if (!result) {
           return res.status(401).json({
             success: false,
-            msg: "Users with this email and password is wrong",
+            msg: "Your email is wrong",
           });
         }
         let passwordIsValid = bcryptjs.compareSync(
@@ -50,7 +50,7 @@ class auth {
         if (!passwordIsValid) {
           return res.status(401).json({
             success: false,
-            msg: "Users with this email and password is wrong",
+            msg: "Your password is wrong",
           });
         }
         let token = jwt.sign(
