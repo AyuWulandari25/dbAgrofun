@@ -54,14 +54,14 @@ class auth {
             if (!result) {
                 return res.status(401).json({
                     success: false,
-                    msg: "Users with this email and password is wrong",
+                    msg: "Your email is wrong",
                 });
             }
             let passwordIsValid = bcryptjs_1.default.compareSync(req.body.password, result.password);
             if (!passwordIsValid) {
                 return res.status(401).json({
                     success: false,
-                    msg: "Users with this email and password is wrong",
+                    msg: "Your password is wrong",
                 });
             }
             let token = jsonwebtoken_1.default.sign({ id: result.id }, process.env.SECRET_KEY, {

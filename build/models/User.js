@@ -24,7 +24,6 @@ const userSchema = new mongoose_1.Schema({
     username: { type: String },
     email: { type: String, required: true },
     password: { type: String },
-    profiles: { type: mongoose_1.default.Types.ObjectId, ref: "Profile" },
     carts: { type: mongoose_1.default.Types.ObjectId, ref: "Cart" },
     product_checkouts: { type: mongoose_1.default.Types.ObjectId, ref: "Checkout" },
 }, { timestamps: true });
