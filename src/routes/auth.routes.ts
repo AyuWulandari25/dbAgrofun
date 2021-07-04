@@ -8,12 +8,17 @@ class auth {
     this.router = Router();
     this.register();
     this.login();
+    this.getUserId();
   }
   public register(): void {
     this.router.post("/register", authController.register);
   }
   public login(): void {
     this.router.post("/login", authController.login);
+  }
+
+  public getUserId(): void {
+    this.router.get("/getuser", authController.getUserId);
   }
 }
 

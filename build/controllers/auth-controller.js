@@ -75,5 +75,17 @@ class auth {
         })
             .catch(next);
     }
+    static getUserId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userId = req.UserId;
+            try {
+                const IdUsers = yield User_1.default.findById(req.UserId);
+                res.status(200).json({ msg: "This is the Users", data: IdUsers });
+            }
+            catch (error) {
+                res.status(500).json({ msg: "Users Not Found", data: error });
+            }
+        });
+    }
 }
 exports.default = auth;

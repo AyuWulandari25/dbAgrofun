@@ -4,7 +4,7 @@ import productRoutes from "../routes/product";
 import categoryRoutes from "../routes/category";
 import cartRoutes from "../routes/cart";
 import checkoutRoutes from "../routes/checkout";
-import prfileRoutes from "../routes/profile";
+import userRoutes from "../routes/user";
 
 class Routes {
   router: Router;
@@ -16,7 +16,7 @@ class Routes {
     this.category();
     this.cart();
     this.checkout();
-    this.profile();
+    this.user();
   }
 
   public routes(): void {
@@ -27,8 +27,8 @@ class Routes {
   public auth(): void {
     this.router.use("", authRoutes);
   }
-  public profile(): void {
-    this.router.use("/profile", prfileRoutes);
+  public user(): void {
+    this.router.use("/user", userRoutes);
   }
   public product(): void {
     this.router.use("/product", productRoutes);
