@@ -9,7 +9,7 @@ const product_1 = __importDefault(require("../routes/product"));
 const category_1 = __importDefault(require("../routes/category"));
 const cart_1 = __importDefault(require("../routes/cart"));
 const checkout_1 = __importDefault(require("../routes/checkout"));
-const profile_1 = __importDefault(require("../routes/profile"));
+const user_1 = __importDefault(require("../routes/user"));
 class Routes {
     constructor() {
         this.router = express_1.Router();
@@ -19,7 +19,7 @@ class Routes {
         this.category();
         this.cart();
         this.checkout();
-        this.profile();
+        this.user();
     }
     routes() {
         this.router.get("/", (req, res) => {
@@ -29,8 +29,8 @@ class Routes {
     auth() {
         this.router.use("", auth_routes_1.default);
     }
-    profile() {
-        this.router.use("/profile", profile_1.default);
+    user() {
+        this.router.use("/user", user_1.default);
     }
     product() {
         this.router.use("/product", product_1.default);

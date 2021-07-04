@@ -10,16 +10,12 @@ class auth {
         this.router = express_1.Router();
         this.register();
         this.login();
-        this.getUserId();
     }
     register() {
         this.router.post("/register", auth_controller_1.default.register);
     }
     login() {
         this.router.post("/login", auth_controller_1.default.login);
-    }
-    getUserId() {
-        this.router.get("/getuser", auth_controller_1.default.getUserId);
     }
 }
 exports.default = new auth().router;
