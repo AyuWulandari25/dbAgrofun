@@ -12,7 +12,7 @@ class profile {
         this.getUserId();
     }
     getUserId() {
-        this.router.get("/detail", authjwt_1.default.authentication, user_controller_1.default.detailUser);
+        this.router.get("/:id/detail", authjwt_1.default.authentication, user_controller_1.default.detailUser);
     }
 }
 exports.default = new profile().router;
