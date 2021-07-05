@@ -10,11 +10,7 @@ class profile {
   }
 
   public getUserId(): void {
-    this.router.get(
-      "/detail",
-      authJWT.authentication,
-      userController.detailUser
-    );
+    this.router.get("/:id/detail", userController.detailUser);
   }
 }
 
