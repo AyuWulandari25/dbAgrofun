@@ -14,18 +14,10 @@ class product {
     this.router.post("/create", productController.createProduct);
   }
   public getAll(): void {
-    this.router.get(
-      "/allproduct",
-      authJWT.authentication,
-      productController.getAllProduct
-    );
+    this.router.get("/allproduct", productController.getAllProduct);
   }
   public getId(): void {
-    this.router.get(
-      "/:id",
-      authJWT.authentication,
-      productController.productId
-    );
+    this.router.get("/:id", productController.productId);
   }
 }
 
