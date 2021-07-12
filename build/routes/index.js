@@ -17,8 +17,8 @@ class Routes {
         this.routes();
         this.auth();
         this.product();
-        this.authJWT();
         this.category();
+        this.authJWT();
         this.cart();
         this.checkout();
         this.user();
@@ -28,20 +28,20 @@ class Routes {
             res.status(200).json({ msg: "Welcome in AgroFun" });
         });
     }
-    authJWT() {
-        this.router.use(authjwt_1.default.authentication);
-    }
     auth() {
         this.router.use("", auth_routes_1.default);
-    }
-    user() {
-        this.router.use("/user", user_1.default);
     }
     product() {
         this.router.use("/product", product_1.default);
     }
     category() {
         this.router.use("/category", category_1.default);
+    }
+    authJWT() {
+        this.router.use(authjwt_1.default.authentication);
+    }
+    user() {
+        this.router.use("/user", user_1.default);
     }
     cart() {
         this.router.use("/cart", cart_1.default);

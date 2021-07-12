@@ -14,8 +14,8 @@ class Routes {
     this.routes();
     this.auth();
     this.product();
-    this.authJWT();
     this.category();
+    this.authJWT();
     this.cart();
     this.checkout();
     this.user();
@@ -26,21 +26,27 @@ class Routes {
       res.status(200).json({ msg: "Welcome in AgroFun" });
     });
   }
-  public authJWT(): void {
-    this.router.use(authJWT.authentication);
-  }
+
   public auth(): void {
     this.router.use("", authRoutes);
   }
-  public user(): void {
-    this.router.use("/user", userRoutes);
-  }
+
   public product(): void {
     this.router.use("/product", productRoutes);
   }
+
   public category(): void {
     this.router.use("/category", categoryRoutes);
   }
+
+  public authJWT(): void {
+    this.router.use(authJWT.authentication);
+  }
+
+  public user(): void {
+    this.router.use("/user", userRoutes);
+  }
+
   public cart(): void {
     this.router.use("/cart", cartRoutes);
   }
