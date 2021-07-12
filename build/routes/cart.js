@@ -16,7 +16,7 @@ class cart {
         this.getId();
     }
     add() {
-        this.router.post("/add/:id", authjwt_1.default.authentication, cart_controller_1.default.addProductToCart);
+        this.router.post("/add/:id", cart_controller_1.default.addProductToCart);
     }
     delete() {
         this.router.delete("/delete/:id", authjwt_1.default.authentication, cart_controller_1.default.deleteCart);
