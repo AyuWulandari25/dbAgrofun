@@ -5,6 +5,7 @@ import categoryRoutes from "../routes/category";
 import cartRoutes from "../routes/cart";
 import checkoutRoutes from "../routes/checkout";
 import userRoutes from "../routes/user";
+import authJWT from "../middlewares/authjwt";
 
 class Routes {
   router: Router;
@@ -13,6 +14,7 @@ class Routes {
     this.routes();
     this.auth();
     this.product();
+    this.authJWT();
     this.category();
     this.cart();
     this.checkout();
@@ -23,6 +25,9 @@ class Routes {
     this.router.get("/", (req: Request, res: Response) => {
       res.status(200).json({ msg: "Welcome in AgroFun" });
     });
+  }
+  public authJWT(): void {
+    this.router.use(authJWT.authentication);
   }
   public auth(): void {
     this.router.use("", authRoutes);

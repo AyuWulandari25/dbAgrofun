@@ -10,12 +10,14 @@ const category_1 = __importDefault(require("../routes/category"));
 const cart_1 = __importDefault(require("../routes/cart"));
 const checkout_1 = __importDefault(require("../routes/checkout"));
 const user_1 = __importDefault(require("../routes/user"));
+const authjwt_1 = __importDefault(require("../middlewares/authjwt"));
 class Routes {
     constructor() {
         this.router = express_1.Router();
         this.routes();
         this.auth();
         this.product();
+        this.authJWT();
         this.category();
         this.cart();
         this.checkout();
@@ -25,6 +27,9 @@ class Routes {
         this.router.get("/", (req, res) => {
             res.status(200).json({ msg: "Welcome in AgroFun" });
         });
+    }
+    authJWT() {
+        this.router.use(authjwt_1.default.authentication);
     }
     auth() {
         this.router.use("", auth_routes_1.default);

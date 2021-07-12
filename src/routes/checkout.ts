@@ -9,11 +9,7 @@ class checkout {
     this.create();
   }
   public create(): void {
-    this.router.post(
-      "/create",
-      authJWT.authentication,
-      CheckoutController.createOrder
-    );
+    this.router.post("/create", CheckoutController.createOrder);
   }
 }
 

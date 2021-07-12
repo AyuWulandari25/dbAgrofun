@@ -16,28 +16,16 @@ class cart {
     this.router.post("/add/:id", cartController.addProductToCart);
   }
   public delete(): void {
-    this.router.delete(
-      "/delete/:id",
-      authJWT.authentication,
-      cartController.deleteCart
-    );
+    this.router.delete("/delete/:id", cartController.deleteCart);
   }
   public update(): void {
-    this.router.post(
-      "/update/:id",
-      authJWT.authentication,
-      cartController.updateCart
-    );
+    this.router.post("/update/:id", cartController.updateCart);
   }
   public getAll(): void {
-    this.router.get(
-      "/getall",
-      authJWT.authentication,
-      cartController.getAllCart
-    );
+    this.router.get("/getall", cartController.getAllCart);
   }
   public getId(): void {
-    this.router.get("/:id", authJWT.authentication, cartController.getCartId);
+    this.router.get("/:id", cartController.getCartId);
   }
 }
 

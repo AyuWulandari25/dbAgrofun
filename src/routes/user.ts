@@ -1,6 +1,5 @@
 import { Router } from "express";
 import userController from "../controllers/user-controller";
-import authJWT from "../middlewares/authjwt";
 
 class profile {
   router: Router;
