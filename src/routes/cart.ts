@@ -13,11 +13,7 @@ class cart {
     this.getId();
   }
   public add(): void {
-    this.router.post(
-      "/add/:id",
-      authJWT.authentication,
-      cartController.addProductToCart
-    );
+    this.router.post("/add/:id", cartController.addProductToCart);
   }
   public delete(): void {
     this.router.delete(
