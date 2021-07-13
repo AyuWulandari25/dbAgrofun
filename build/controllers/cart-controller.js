@@ -118,7 +118,8 @@ class Cart {
     static getAllCart(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const allCarts = yield Cart_1.default.find();
+                const idUser = yield req.UserId;
+                const allCarts = yield Cart_1.default.find({ users: idUser });
                 res.status(200).json({ msg: "This is Carts", data: allCarts });
             }
             catch (error) {

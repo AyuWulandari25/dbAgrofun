@@ -115,7 +115,8 @@ class Cart {
   }
   static async getAllCart(req: Request, res: Response) {
     try {
-      const allCarts = await Carts.find();
+      const idUser = await (<any>req).UserId;
+      const allCarts = await Carts.find({ users: idUser });
       res.status(200).json({ msg: "This is Carts", data: allCarts });
     } catch (error) {
       res.status(500).json({ msg: "Products Not Found", data: error });
