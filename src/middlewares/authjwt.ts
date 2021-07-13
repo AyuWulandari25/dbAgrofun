@@ -6,10 +6,10 @@ import * as jwt from "jsonwebtoken";
 class authJWT {
   static authentication(req: Request, res: Response, next: NextFunction) {
     const accessToken: any = req.headers.AccessToken;
-    if (!accessToken) {
-      return res
-        .status(401)
-        .json({ msg: "Missing Access Token", success: false });
+    if (accessToken) {
+      res.status(200).json({ msg: "Got It", success: true });
+    } else {
+      res.status(401).json({ msg: "Missing Access Token", success: false });
     }
 
     const secretKey: string = process.env.SECRET_KEY as string;

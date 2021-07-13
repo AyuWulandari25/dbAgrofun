@@ -23,10 +23,11 @@ const jwt = __importStar(require("jsonwebtoken"));
 class authJWT {
     static authentication(req, res, next) {
         const accessToken = req.headers.AccessToken;
-        if (!accessToken) {
-            return res
-                .status(401)
-                .json({ msg: "Missing Access Token", success: false });
+        if (accessToken) {
+            res.status(200).json({ msg: "Got It", success: true });
+        }
+        else {
+            res.status(401).json({ msg: "Missing Access Token", success: false });
         }
         const secretKey = process.env.SECRET_KEY;
         jwt.verify(accessToken, secretKey, (err, decoded) => {
