@@ -15,7 +15,7 @@ class App {
   }
 
   protected plugin(): void {
-    this.app.use(cors({ origin: "http://localhost:4200/" }));
+    this.app.use(cors({ origin: "https://new-db-agrofun.herokuapp.com" }));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     MongoDB();
