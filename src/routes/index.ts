@@ -12,9 +12,9 @@ class Routes {
   constructor() {
     this.router = Router();
     this.routes();
-    this.auth();
     this.product();
     this.category();
+    this.auth();
     this.authJWT();
     this.user();
     this.cart();

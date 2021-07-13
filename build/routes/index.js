@@ -15,9 +15,9 @@ class Routes {
     constructor() {
         this.router = express_1.Router();
         this.routes();
-        this.auth();
         this.product();
         this.category();
+        this.auth();
         this.authJWT();
         this.user();
         this.cart();
