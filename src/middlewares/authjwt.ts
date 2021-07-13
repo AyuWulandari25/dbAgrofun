@@ -5,7 +5,7 @@ import * as jwt from "jsonwebtoken";
 
 class authJWT {
   static authentication(req: Request, res: Response, next: NextFunction) {
-    const accessToken: any = req.headers.accesstoken;
+    const accessToken: any = req.headers.AccessToken;
     if (!accessToken) {
       return res
         .status(401)

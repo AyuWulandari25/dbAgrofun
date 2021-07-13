@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jwt = __importStar(require("jsonwebtoken"));
 class authJWT {
     static authentication(req, res, next) {
-        const accessToken = req.headers.accesstoken;
+        const accessToken = req.headers.AccessToken;
         if (!accessToken) {
             return res
                 .status(401)
