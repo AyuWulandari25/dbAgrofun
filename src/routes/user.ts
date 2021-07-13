@@ -1,7 +1,7 @@
 import { Router } from "express";
 import userController from "../controllers/user-controller";
 
-class profile {
+class user {
   router: Router;
   constructor() {
     this.router = Router();
@@ -13,4 +13,4 @@ class profile {
   }
 }
 
-export default new profile().router;
+export default new user().router;
