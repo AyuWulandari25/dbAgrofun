@@ -18,7 +18,20 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const User_1 = __importDefault(require("../models/User"));
 const jwt = __importStar(require("jsonwebtoken"));
 class authJWT {
     static authentication(req, res, next) {
@@ -27,7 +40,9 @@ class authJWT {
             res.status(200).json({ msg: "Got It", success: true });
         }
         else {
-            res.status(401).json({ msg: "Missing Access Token", success: false });
+            return res
+                .status(401)
+                .json({ msg: "Missing Access Token", success: false });
         }
         const secretKey = process.env.SECRET_KEY;
         jwt.verify(accessToken, secretKey, (err, decoded) => {
@@ -36,6 +51,28 @@ class authJWT {
             }
             req.UserId = decoded.id;
             next();
+        });
+    }
+    static authorization(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const foundUser = yield User_1.default.findOne({ _id: req.UserId });
+                console.log(foundUser);
+                // User not found, when do query using access token's ID from user model
+                if (!foundUser) {
+                    throw { name: "Access Token not Assosiated" };
+                }
+                if (String(foundUser._id) === req.params.userID) {
+                    next();
+                }
+                else {
+                    // When found user's ID not match with user's ID from params
+                    throw { name: "Forbidden Access" };
+                }
+            }
+            catch (err) {
+                next(err);
+            }
         });
     }
 }

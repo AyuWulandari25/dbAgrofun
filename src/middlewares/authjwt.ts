@@ -9,7 +9,9 @@ class authJWT {
     if (accessToken) {
       res.status(200).json({ msg: "Got It", success: true });
     } else {
-      res.status(401).json({ msg: "Missing Access Token", success: false });
+      return res
+        .status(401)
+        .json({ msg: "Missing Access Token", success: false });
     }
 
     const secretKey: string = process.env.SECRET_KEY as string;
@@ -20,6 +22,26 @@ class authJWT {
       (<any>req).UserId = decoded.id;
       next();
     });
+  }
+
+  static async authorization(req: Request, res: Response, next: NextFunction) {
+    try {
+      const foundUser = await User.findOne({ _id: (<any>req).UserId });
+      console.log(foundUser);
+
+      // User not found, when do query using access token's ID from user model
+      if (!foundUser) {
+        throw { name: "Access Token not Assosiated" };
+      }
+      if (String(foundUser._id) === req.params.userID) {
+        next();
+      } else {
+        // When found user's ID not match with user's ID from params
+        throw { name: "Forbidden Access" };
+      }
+    } catch (err) {
+      next(err);
+    }
   }
 }
 
