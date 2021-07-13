@@ -19,9 +19,9 @@ class Routes {
         this.product();
         this.category();
         this.authJWT();
+        this.user();
         this.cart();
         this.checkout();
-        this.user();
     }
     routes() {
         this.router.get("/", (req, res) => {
