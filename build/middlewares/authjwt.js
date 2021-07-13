@@ -35,24 +35,39 @@ const User_1 = __importDefault(require("../models/User"));
 const jwt = __importStar(require("jsonwebtoken"));
 class authJWT {
     static authentication(req, res, next) {
-        const accessToken = req.headers.AccessToken;
-        if (accessToken) {
-            res.status(200).json({ msg: "Got It", success: true });
-        }
-        else {
-            return res
-                .status(401)
-                .json({ msg: "Missing Access Token", success: false });
-        }
-        const secretKey = process.env.SECRET_KEY;
-        jwt.verify(accessToken, secretKey, (err, decoded) => {
-            if (err) {
-                res.status(401).json({ msg: "Invalid token", success: false });
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                // When user doesn't input access token
+                if (!req.header("AccessToken")) {
+                    throw { name: "Missing Access Token" };
+                }
+                const decoded = jwt.verify(req.header("AccessToken").replace("Bearer ", ""), process.env.SECRET_KEY);
+                req.UserId = decoded.id;
+                next();
             }
-            req.UserId = decoded.id;
-            next();
+            catch (err) {
+                return next(err);
+            }
         });
     }
+    // static authentication(req: Request, res: Response, next: NextFunction) {
+    //   const accessToken: any = req.headers.AccessToken;
+    //   if (accessToken) {
+    //     res.status(200).json({ msg: "Got It", success: true });
+    //   } else {
+    //     return res
+    //       .status(401)
+    //       .json({ msg: "Missing Access Token", success: false });
+    //   }
+    //   const secretKey: string = process.env.SECRET_KEY as string;
+    //   jwt.verify(accessToken, secretKey, (err: any, decoded: any) => {
+    //     if (err) {
+    //       res.status(401).json({ msg: "Invalid token", success: false });
+    //     }
+    //     (<any>req).UserId = decoded.id;
+    //     next();
+    //   });
+    // }
     static authorization(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
