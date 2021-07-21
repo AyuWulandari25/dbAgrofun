@@ -21,13 +21,15 @@ class Cart {
             const productId = req.params.id;
             const findproduct = yield Product_1.default.findById(productId);
             const priceProduct = findproduct.price;
+            const imageProduct = findproduct.image;
+            const titleProduct = findproduct.title;
             const totalprice = priceProduct;
             try {
                 const detailproduct = yield Product_1.default.findById(req.params.id);
                 const newCart = yield Cart_1.default.create({
                     users: userId,
                     productid: productId,
-                    items: detailproduct,
+                    items: [priceProduct, imageProduct, titleProduct],
                     quantity: +1,
                     subtotal_payment: totalprice,
                 });

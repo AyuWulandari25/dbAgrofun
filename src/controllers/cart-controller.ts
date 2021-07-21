@@ -8,6 +8,8 @@ class Cart {
     const productId = req.params.id;
     const findproduct = await Product.findById(productId);
     const priceProduct = findproduct.price;
+    const imageProduct = findproduct.image;
+    const titleProduct = findproduct.title;
     const totalprice = priceProduct;
 
     try {
@@ -15,7 +17,7 @@ class Cart {
       const newCart = await Carts.create({
         users: userId,
         productid: productId,
-        items: detailproduct,
+        items: [priceProduct, imageProduct, titleProduct],
         quantity: +1,
         subtotal_payment: totalprice,
       });
