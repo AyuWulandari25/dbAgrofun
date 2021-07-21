@@ -21,7 +21,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
 const cartSchema = new mongoose_1.Schema({
-    items: [{ type: mongoose_1.default.Types.ObjectId, ref: "Product" }],
+    productid: { type: mongoose_1.default.Types.ObjectId, ref: "Product" },
+    items: [{ type: String, ref: "Product" }],
     quantity: { type: Number },
     subtotal_payment: { type: Number },
     users: { type: mongoose_1.default.Types.ObjectId, ref: "User" },

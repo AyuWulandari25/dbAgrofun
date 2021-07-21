@@ -4,59 +4,33 @@ import Product from "../models/Product";
 
 class Cart {
   static async addProductToCart(req: Request, res: Response) {
-    const userId = await (<any>req).UserId;
+    const userId = (<any>req).UserId;
     const productId = req.params.id;
-    const cartsReady: any = await Carts.countDocuments({
-      users: userId,
-      items: productId,
-    });
-    const findproduct: any = await Product.findById(productId);
+    const findproduct = await Product.findById(productId);
     const priceProduct = findproduct.price;
-    const totalprice: any = priceProduct;
+    const totalprice = priceProduct;
 
     try {
-      if (cartsReady == 1) {
-        const findIdCart: any = await Carts.findOne({
-          users: userId,
-          items: productId,
-        });
-        const cartId = findIdCart.id;
-
-        const UpdateCarts = await Carts.findByIdAndUpdate(
-          cartId,
-          { $inc: { quantity: 1, subtotal_payment: totalprice } },
-          { new: true }
-        );
-        const updateStockProduct = await Product.findByIdAndUpdate(
-          productId,
-          {
-            $inc: { stock: -1 },
-          },
-          { new: true }
-        );
-        res
-          .status(200)
-          .json({ msg: "Succesfully add product to cart", data: UpdateCarts });
-      } else {
-        const newCart = await Carts.create({
-          users: userId,
-          items: productId,
-          quantity: +1,
-          subtotal_payment: totalprice,
-        });
-        const StockProduct = await Product.findByIdAndUpdate(
-          productId,
-          {
-            $inc: { stock: -1 },
-          },
-          { new: true }
-        );
-        res.status(201).json({
-          success: true,
-          message: "Success add to new cart!",
-          data: newCart,
-        });
-      }
+      const detailproduct = await Product.findById(req.params.id);
+      const newCart = await Carts.create({
+        users: userId,
+        productid: productId,
+        items: detailproduct,
+        quantity: +1,
+        subtotal_payment: totalprice,
+      });
+      const StockProduct = await Product.findByIdAndUpdate(
+        productId,
+        {
+          $inc: { stock: -1 },
+        },
+        { new: true }
+      );
+      res.status(201).json({
+        success: true,
+        message: "Success add to new cart!",
+        data: newCart,
+      });
     } catch (error) {
       res
         .status(500)
@@ -95,8 +69,8 @@ class Cart {
       const User = (<any>req).UserId;
       const CartId = await Carts.findById(Id);
       const quantity = CartId.quantity;
-      const itemsId = await Carts.findById(CartId).select("items");
-      const updateStock = await Product.findByIdAndUpdate(itemsId.items, {
+      const itemsId = await Carts.findById(CartId).select("productid");
+      const updateStock = await Product.findByIdAndUpdate(itemsId.productid, {
         $inc: { stock: quantity },
       });
       const deleteCart = await Carts.findByIdAndDelete(CartId);

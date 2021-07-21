@@ -17,46 +17,28 @@ const Product_1 = __importDefault(require("../models/Product"));
 class Cart {
     static addProductToCart(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userId = yield req.UserId;
+            const userId = req.UserId;
             const productId = req.params.id;
-            const cartsReady = yield Cart_1.default.countDocuments({
-                users: userId,
-                items: productId,
-            });
             const findproduct = yield Product_1.default.findById(productId);
             const priceProduct = findproduct.price;
             const totalprice = priceProduct;
             try {
-                if (cartsReady == 1) {
-                    const findIdCart = yield Cart_1.default.findOne({
-                        users: userId,
-                        items: productId,
-                    });
-                    const cartId = findIdCart.id;
-                    const UpdateCarts = yield Cart_1.default.findByIdAndUpdate(cartId, { $inc: { quantity: 1, subtotal_payment: totalprice } }, { new: true });
-                    const updateStockProduct = yield Product_1.default.findByIdAndUpdate(productId, {
-                        $inc: { stock: -1 },
-                    }, { new: true });
-                    res
-                        .status(200)
-                        .json({ msg: "Succesfully add product to cart", data: UpdateCarts });
-                }
-                else {
-                    const newCart = yield Cart_1.default.create({
-                        users: userId,
-                        items: productId,
-                        quantity: +1,
-                        subtotal_payment: totalprice,
-                    });
-                    const StockProduct = yield Product_1.default.findByIdAndUpdate(productId, {
-                        $inc: { stock: -1 },
-                    }, { new: true });
-                    res.status(201).json({
-                        success: true,
-                        message: "Success add to new cart!",
-                        data: newCart,
-                    });
-                }
+                const detailproduct = yield Product_1.default.findById(req.params.id);
+                const newCart = yield Cart_1.default.create({
+                    users: userId,
+                    productid: productId,
+                    items: detailproduct,
+                    quantity: +1,
+                    subtotal_payment: totalprice,
+                });
+                const StockProduct = yield Product_1.default.findByIdAndUpdate(productId, {
+                    $inc: { stock: -1 },
+                }, { new: true });
+                res.status(201).json({
+                    success: true,
+                    message: "Success add to new cart!",
+                    data: newCart,
+                });
             }
             catch (error) {
                 res
@@ -95,8 +77,8 @@ class Cart {
                 const User = req.UserId;
                 const CartId = yield Cart_1.default.findById(Id);
                 const quantity = CartId.quantity;
-                const itemsId = yield Cart_1.default.findById(CartId).select("items");
-                const updateStock = yield Product_1.default.findByIdAndUpdate(itemsId.items, {
+                const itemsId = yield Cart_1.default.findById(CartId).select("productid");
+                const updateStock = yield Product_1.default.findByIdAndUpdate(itemsId.productid, {
                     $inc: { stock: quantity },
                 });
                 const deleteCart = yield Cart_1.default.findByIdAndDelete(CartId);
